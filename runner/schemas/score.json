@@ -1,0 +1,50 @@
+{
+  "type": "object",
+  "properties": {
+    "estimated_score": {
+      "type": "number",
+      "description": "Expected mean reward in [0,1] for the task as it stands now."
+    },
+    "measured_baseline": {
+      "type": ["number", "null"],
+      "description": "Mean solver reward recovered from recorded traces, or null if none exist."
+    },
+    "baseline_trials": {
+      "type": "array",
+      "items": { "type": "number" },
+      "description": "Individual solver rewards found in the traces."
+    },
+    "delta_reason": {
+      "type": "string",
+      "description": "Why the estimate differs from the measured baseline, naming specific edits."
+    },
+    "confidence": {
+      "type": "string",
+      "enum": ["low", "medium", "high"]
+    },
+    "positive_criteria_total": { "type": "integer" },
+    "positive_criteria_expected_met": { "type": "integer" },
+    "expected_penalties": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "hardest_requirements": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "rationale": { "type": "string" }
+  },
+  "required": [
+    "estimated_score",
+    "measured_baseline",
+    "baseline_trials",
+    "delta_reason",
+    "confidence",
+    "positive_criteria_total",
+    "positive_criteria_expected_met",
+    "expected_penalties",
+    "hardest_requirements",
+    "rationale"
+  ],
+  "additionalProperties": false
+}

@@ -1,0 +1,50 @@
+{
+  "type": "object",
+  "properties": {
+    "verdict": {
+      "type": "string",
+      "enum": ["ok", "minor", "major"],
+      "description": "ok = ship it. minor = small defects worth fixing. major = a fairness or rule violation that must be fixed before this task is used."
+    },
+    "headline": {
+      "type": "string",
+      "description": "One sentence, at most 20 words, stating what is true of the bundle. Write impersonally: never 'I', 'we', 'my', and never describe your own process ('I confirmed', 'I checked'). State the finding itself, e.g. 'Assurance link A05 expects the wrong target and several criteria bundle obligations.'"
+    },
+    "criteria_checked": {
+      "type": "integer",
+      "description": "How many rubric criteria were actually examined."
+    },
+    "issues": {
+      "type": "array",
+      "description": "Only real defects. Empty when the task is sound. Never pad this.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "severity": { "type": "string", "enum": ["high", "medium", "low"] },
+          "area": {
+            "type": "string",
+            "enum": ["fairness", "atomicity", "accuracy", "weight-sign",
+                     "weights", "schema", "coverage", "rules"]
+          },
+          "criterion_id": {
+            "type": ["string", "null"],
+            "description": "The criterion at fault, or null if the issue is bundle-wide."
+          },
+          "detail": {
+            "type": "string",
+            "description": "ONE sentence, 30 words maximum, naming the criterion and what is wrong. It lands in a table cell. No preamble, no restating the requirement, no reasoning. Impersonal: no 'I' or 'we'. Never a numeric rule violation (points, ratios, tier counts) — those are reported separately."
+          }
+        },
+        "required": ["severity", "area", "criterion_id", "detail"],
+        "additionalProperties": false
+      }
+    },
+    "rule_failures": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Numeric rules from the checks block that still fail, by name. Empty if all pass."
+    }
+  },
+  "required": ["verdict", "headline", "criteria_checked", "issues", "rule_failures"],
+  "additionalProperties": false
+}

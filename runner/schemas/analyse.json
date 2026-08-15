@@ -1,0 +1,77 @@
+{
+  "type": "object",
+  "properties": {
+    "verdict": {
+      "type": "string",
+      "enum": ["good", "adequate", "poor"],
+      "description": "good = a reviewer could read this bundle once and work with it. adequate = readable but the structure fights the reader in places. poor = the information is present but not findable; a human has to reconstruct it before they can use it."
+    },
+    "headline": {
+      "type": "string",
+      "description": "One sentence, at most 20 words, stating what is true of this bundle's writing. Impersonal: never 'I', 'we', and never describe your own process. State the finding, e.g. 'The instruction reads as generated field lists and the report's decision log is twelve stacked blocks.'"
+    },
+    "areas": {
+      "type": "array",
+      "description": "One entry per area examined. Always all four, even when an area is clean.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "area": {
+            "type": "string",
+            "enum": ["instruction", "report", "decision-log", "structure"]
+          },
+          "verdict": { "type": "string", "enum": ["good", "adequate", "poor"] },
+          "reads_as_human": {
+            "type": "boolean",
+            "description": "Whether this area reads as though a person wrote it for another person, rather than a template filled in by a generator. Judge the writing, not the subject matter."
+          },
+          "detail": {
+            "type": "string",
+            "description": "ONE sentence, 35 words maximum, saying what the reader actually hits. It lands in a table cell. No preamble, no restating the rules, impersonal."
+          }
+        },
+        "required": ["area", "verdict", "reads_as_human", "detail"],
+        "additionalProperties": false
+      }
+    },
+    "findings": {
+      "type": "array",
+      "description": "Specific, located problems worth acting on. Empty when the bundle reads well. Never pad this, and never restate a deterministic check that was already given to you — add only what reading the prose reveals.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "severity": { "type": "string", "enum": ["high", "medium", "low"] },
+          "area": {
+            "type": "string",
+            "enum": ["instruction", "report", "decision-log", "structure"]
+          },
+          "where": {
+            "type": "string",
+            "description": "File and line or section heading, e.g. 'solution/report.md:142' or 'instruction.md, paragraph 3'."
+          },
+          "what": {
+            "type": "string",
+            "description": "ONE sentence, 30 words maximum, naming what a reader cannot do here. Impersonal."
+          },
+          "suggested_shape": {
+            "type": "string",
+            "description": "The shape this content wants, in one short phrase — e.g. 'a 12-row table: Status | Finding | Evidence | Consequence', 'a bullet list of the six fields', 'one stated scope line above the section'. Never prose to paste; the shape only."
+          }
+        },
+        "required": ["severity", "area", "where", "what", "suggested_shape"],
+        "additionalProperties": false
+      }
+    },
+    "instruction_is_answerable": {
+      "type": "boolean",
+      "description": "Whether a competent solver reading only instruction.md could tell what deliverable is wanted, where to put it, and what counts as done. False when the requirements are implied, scattered, or only discoverable from the rubric."
+    },
+    "report_answers_instruction": {
+      "type": "boolean",
+      "description": "Whether solution/report.md visibly answers what instruction.md asked for — every requested determination present and locatable. False if a reader has to hunt or infer."
+    }
+  },
+  "required": ["verdict", "headline", "areas", "findings",
+               "instruction_is_answerable", "report_answers_instruction"],
+  "additionalProperties": false
+}

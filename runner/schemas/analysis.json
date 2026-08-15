@@ -1,0 +1,67 @@
+{
+  "type": "object",
+  "properties": {
+    "pr": { "type": "string" },
+    "task_name": { "type": "string" },
+    "score": { "type": ["number", "null"] },
+    "score_health": {
+      "type": "string",
+      "enum": ["healthy", "borderline", "too-easy"],
+      "description": "healthy = comfortably below 0.5; borderline = close to 0.5; too-easy = 0.5 or above."
+    },
+    "difficulty_source": {
+      "type": "string",
+      "enum": ["legitimate", "mixed", "artificial"],
+      "description": "legitimate = real research depth and judgement; artificial = clerical transcription, ambiguity, or brittle exact-matching."
+    },
+    "verdict": {
+      "type": "string",
+      "enum": ["well-built", "acceptable", "flawed", "badly-flawed"],
+      "description": "Overall judgement of how well this task is constructed."
+    },
+    "why_this_score": {
+      "type": "string",
+      "description": "What about the task's construction produced this score. Two sentences. Remember low is good — explain what is keeping it hard, or what made it drift easy."
+    },
+    "components": {
+      "type": "array",
+      "description": "One entry for each part reviewed.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "part": {
+            "type": "string",
+            "enum": ["instruction", "rubric", "tests", "solution", "sources", "task-design"]
+          },
+          "quality": {
+            "type": "string",
+            "enum": ["good", "adequate", "poor"]
+          },
+          "issue": {
+            "type": "string",
+            "description": "What is wrong, in general terms. Say 'none' if it is fine."
+          },
+          "score_effect": {
+            "type": "string",
+            "enum": ["makes-task-easier", "makes-task-harder", "neutral"],
+            "description": "Direction only. Easier is the risk; harder is fine if the difficulty is legitimate."
+          }
+        },
+        "required": ["part", "quality", "issue", "score_effect"],
+        "additionalProperties": false
+      }
+    },
+    "guideline_compliance": {
+      "type": "string",
+      "description": "Whether it looks compliant with task realism, golden solution, rubric similarity and rubric fairness — and where not."
+    },
+    "top_fix": {
+      "type": "string",
+      "description": "The single most valuable change. One sentence. Never propose raising the score."
+    }
+  },
+  "required": ["pr", "task_name", "score", "score_health", "difficulty_source",
+               "verdict", "why_this_score", "components", "guideline_compliance",
+               "top_fix"],
+  "additionalProperties": false
+}

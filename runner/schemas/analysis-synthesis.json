@@ -1,0 +1,53 @@
+{
+  "type": "object",
+  "properties": {
+    "headline": {
+      "type": "string",
+      "description": "The one thing to say if nothing else is read. One or two sentences."
+    },
+    "keeps_difficulty_real": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "point": { "type": "string", "description": "One line." },
+          "tasks": { "type": "array", "items": { "type": "string" } }
+        },
+        "required": ["point", "tasks"],
+        "additionalProperties": false
+      }
+    },
+    "makes_tasks_too_easy": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "point": { "type": "string" },
+          "tasks": { "type": "array", "items": { "type": "string" } }
+        },
+        "required": ["point", "tasks"],
+        "additionalProperties": false
+      }
+    },
+    "false_difficulty": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "point": { "type": "string" },
+          "tasks": { "type": "array", "items": { "type": "string" } }
+        },
+        "required": ["point", "tasks"],
+        "additionalProperties": false
+      }
+    },
+    "recommendations": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Concrete actions, most valuable first. One line each."
+    }
+  },
+  "required": ["headline", "keeps_difficulty_real", "makes_tasks_too_easy",
+               "false_difficulty", "recommendations"],
+  "additionalProperties": false
+}
